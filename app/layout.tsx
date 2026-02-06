@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito, Nunito_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -29,6 +30,7 @@ export default function RootLayout({
 				<body
 					className={`${nunito.variable} ${nunitoSans.variable} antialiased`}
 				>
+					<Toaster />
 					{children}
 				</body>
 			</html>
