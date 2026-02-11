@@ -26,7 +26,7 @@ export const LessonButton = ({
 	current,
 	percentage,
 }: Props) => {
-	const cycleLength = 8;
+	const cycleLength = 4;
 	const cycleIndex = index % cycleLength;
 
 	let indentationLevel;
