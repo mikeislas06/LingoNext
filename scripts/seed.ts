@@ -98,11 +98,24 @@ const main = async () => {
 				order: 1,
 				question: 'Which one of this is "the man"?',
 			},
+			{
+				id: 2,
+				lessonId: 1, // Nouns lesson
+				type: "ASSIST",
+				order: 2,
+				question: '"The man"',
+			},
+			{
+				id: 3,
+				lessonId: 1, // Nouns lesson
+				type: "SELECT",
+				order: 3,
+				question: 'Which one of this is "the robot"',
+			},
 		]);
 
 		await db.insert(schema.challengeOptions).values([
 			{
-				id: 1,
 				challengeId: 1, // Challenge 1
 				imageSrc: "/man.svg",
 				correct: true,
@@ -110,7 +123,6 @@ const main = async () => {
 				audioSrc: "/es_man.mp3",
 			},
 			{
-				id: 2,
 				challengeId: 1, // Challenge 1
 				imageSrc: "/woman.svg",
 				correct: false,
@@ -118,10 +130,48 @@ const main = async () => {
 				audioSrc: "/es_woman.mp3",
 			},
 			{
-				id: 3,
 				challengeId: 1, // Challenge 1
-				imageSrc: "/robot.svg",
+				imageSrc: "/mascot.svg",
 				correct: false,
+				text: "El robot",
+				audioSrc: "/es_robot.mp3",
+			},
+			{
+				challengeId: 2, // Challenge 2
+				correct: true,
+				text: "El hombre",
+				audioSrc: "/es_man.mp3",
+			},
+			{
+				challengeId: 2, // Challenge 2
+				correct: false,
+				text: "La mujer",
+				audioSrc: "/es_woman.mp3",
+			},
+			{
+				challengeId: 2, // Challenge 2
+				correct: false,
+				text: "El robot",
+				audioSrc: "/es_robot.mp3",
+			},
+			{
+				challengeId: 3, // Challenge 3
+				imageSrc: "/man.svg",
+				correct: false,
+				text: "El hombre",
+				audioSrc: "/es_man.mp3",
+			},
+			{
+				challengeId: 3, // Challenge 3
+				imageSrc: "woman.svg",
+				correct: false,
+				text: "La mujer",
+				audioSrc: "/es_woman.mp3",
+			},
+			{
+				challengeId: 3, // Challenge 3
+				imageSrc: "mascot.svg",
+				correct: true,
 				text: "El robot",
 				audioSrc: "/es_robot.mp3",
 			},

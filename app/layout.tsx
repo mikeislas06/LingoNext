@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Nunito, Nunito_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+
 import { Toaster } from "@/components/ui/sonner";
+import { ExitModal } from "@/components/modals/exitModal";
+
 import "./globals.css";
 
 const nunito = Nunito({
@@ -27,10 +30,9 @@ export default function RootLayout({
 	return (
 		<ClerkProvider afterSignOutUrl="/">
 			<html lang="en">
-				<body
-					className={`${nunito.variable} ${nunitoSans.variable} antialiased`}
-				>
+				<body className={`${nunito.variable} ${nunitoSans.variable} antialiased`}>
 					<Toaster />
+					<ExitModal />
 					{children}
 				</body>
 			</html>
