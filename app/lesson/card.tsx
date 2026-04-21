@@ -15,7 +15,7 @@ type Props = {
 	selected?: boolean;
 	onClick: () => void;
 	disabled?: boolean;
-	status?: "correct" | "incorrect" | "unanswered";
+	status?: "correct" | "incorrect" | "unanswered" | "completed";
 	type: (typeof challenges.$inferSelect)["type"];
 };
 

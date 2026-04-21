@@ -5,7 +5,7 @@ import { Card } from "./card";
 type Props = {
 	options: (typeof challengeOptions.$inferSelect)[];
 	onSelect: (id: number) => void;
-	status: "correct" | "incorrect" | "unanswered";
+	status: "correct" | "incorrect" | "unanswered" | "completed";
 	selectedOption?: number;
 	disabled?: boolean;
 	type: (typeof challenges.$inferSelect)["type"];
