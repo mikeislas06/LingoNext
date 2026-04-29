@@ -1,9 +1,16 @@
 import { redirect } from "next/navigation";
 import { getLesson, getUserProgress } from "@/db/queries";
-import { Quiz } from "./quiz";
+import { Quiz } from "../quiz";
 
-const LessonPage = async () => {
-	const lessonData = getLesson();
+type Props = {
+	params: Promise<{
+		lessonId: string;
+	}>;
+};
+
+const LessonIdPage = async ({ params }: Props) => {
+	const { lessonId } = await params;
+	const lessonData = getLesson(Number(lessonId));
 	const userProgressData = getUserProgress();
 
 	const [lesson, userProgress] = await Promise.all([lessonData, userProgressData]);
@@ -26,4 +33,4 @@ const LessonPage = async () => {
 	);
 };
 
-export default LessonPage;
+export default LessonIdPage;
