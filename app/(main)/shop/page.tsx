@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { getUserProgress } from "@/db/queries";
+import { getUserProgress, getUserSubscription } from "@/db/queries";
 
 import { FeedWrapper } from "@/components/feedWrapper";
 import { StickyWrapper } from "@/components/stickyWrapper";
@@ -11,12 +11,18 @@ import { Items } from "./items";
 
 const ShopPage = async () => {
 	const userProgressData = getUserProgress();
+	const userSubscriptionData = getUserSubscription();
 
-	const [userProgress] = await Promise.all([userProgressData]);
+	const [userProgress, userSubscription] = await Promise.all([
+		userProgressData,
+		userSubscriptionData,
+	]);
 
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect("/courses");
 	}
+
+	const isUserSubscribed = !!userSubscription?.isActive;
 
 	return (
 		<div className="flex flex-row-reverse gap-12 px6">
@@ -25,7 +31,7 @@ const ShopPage = async () => {
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
-					hasActiveSubscription={false}
+					hasActiveSubscription={isUserSubscribed}
 				/>
 			</StickyWrapper>
 			<FeedWrapper>
@@ -38,7 +44,7 @@ const ShopPage = async () => {
 					<Items
 						hearts={userProgress.hearts}
 						points={userProgress.points}
-						hasActiveSubscription={false} // TODO: Add subscription status
+						hasActiveSubscription={isUserSubscribed}
 					/>
 				</div>
 			</FeedWrapper>

@@ -1,6 +1,6 @@
 import { cache } from "react";
 import db from "@/db/drizzle";
-import { eq } from "drizzle-orm";
+import { eq, is } from "drizzle-orm";
 import { auth } from "@clerk/nextjs/server";
 
 import {
@@ -9,6 +9,7 @@ import {
 	lessons,
 	units,
 	userProgress,
+	userSubscription,
 } from "@/db/schema";
 
 export const getCourses = cache(async () => {
@@ -56,19 +57,14 @@ export const getUnits = cache(async () => {
 
 	const normalizedData = data.map((unit) => {
 		const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
-			if (lesson.challenges.length === 0)
-				return { ...lesson, completed: false };
-			const allCompletedChallenges = lesson.challenges.every(
-				(challenge) => {
-					return (
-						challenge.challengeProgress &&
-						challenge.challengeProgress.length > 0 &&
-						challenge.challengeProgress.every(
-							(progress) => progress.completed,
-						)
-					);
-				},
-			);
+			if (lesson.challenges.length === 0) return { ...lesson, completed: false };
+			const allCompletedChallenges = lesson.challenges.every((challenge) => {
+				return (
+					challenge.challengeProgress &&
+					challenge.challengeProgress.length > 0 &&
+					challenge.challengeProgress.every((progress) => progress.completed)
+				);
+			});
 
 			return { ...lesson, completed: allCompletedChallenges };
 		});
@@ -119,9 +115,7 @@ export const getCourseProgress = cache(async () => {
 				return (
 					!challenge.challengeProgress ||
 					challenge.challengeProgress.length === 0 ||
-					challenge.challengeProgress.some(
-						(progress) => progress.completed === false,
-					)
+					challenge.challengeProgress.some((progress) => progress.completed === false)
 				);
 			});
 		});
@@ -185,9 +179,28 @@ export const getLessonPercentage = cache(async () => {
 		return challenge.completed;
 	});
 
-	const percentage = Math.round(
-		(completedChallenges.length / lesson.challenges.length) * 100,
-	);
+	const percentage = Math.round((completedChallenges.length / lesson.challenges.length) * 100);
 
 	return percentage;
+});
+
+const DAY_IN_MS = 86_400_000;
+export const getUserSubscription = cache(async () => {
+	const { userId } = await auth();
+
+	if (!userId) return null;
+
+	const data = await db.query.userSubscription.findFirst({
+		where: eq(userSubscription.userId, userId),
+	});
+
+	if (!data) return null;
+
+	const isActive =
+		data.stripePriceId && data.stripeCurrentPeriodEnd?.getTime()! + DAY_IN_MS > Date.now();
+
+	return {
+		...data,
+		isActive: !!isActive,
+	};
 });
