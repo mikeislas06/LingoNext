@@ -18,14 +18,7 @@ type Props = {
 	percentage: number;
 };
 
-export const LessonButton = ({
-	id,
-	index,
-	totalCount,
-	locked,
-	current,
-	percentage,
-}: Props) => {
+export const LessonButton = ({ id, index, totalCount, locked, current, percentage }: Props) => {
 	const cycleLength = 4;
 	const cycleIndex = index % cycleLength;
 
@@ -84,7 +77,7 @@ export const LessonButton = ({
 							<Button
 								size="rounded"
 								variant={locked ? "locked" : "secondary"}
-								className="h-17.5 w-17.5 border-b-8"
+								className="h-17.5 w-17.5 border-b-8 cursor-pointer"
 							>
 								<Icon
 									className={cn(
@@ -102,7 +95,7 @@ export const LessonButton = ({
 					<Button
 						size="rounded"
 						variant={locked ? "locked" : "secondary"}
-						className="h-17.5 w-17.5 border-b-8"
+						className="h-17.5 w-17.5 border-b-8 cursor-pointer"
 					>
 						<Icon
 							className={cn(

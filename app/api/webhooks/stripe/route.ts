@@ -1,11 +1,12 @@
 import Stripe from "stripe";
 import { headers } from "next/headers";
-
-import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
+
+import { eq } from "drizzle-orm";
 import db from "@/db/drizzle";
 import { userSubscription } from "@/db/schema";
-import { eq } from "drizzle-orm";
+
+import { stripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
 	const body = await req.text();
