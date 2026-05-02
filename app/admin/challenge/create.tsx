@@ -25,7 +25,6 @@ export const ChallengeCreate = () => {
 	return (
 		<Create>
 			<SimpleForm validate={validateChallengeCreation}>
-				<NumberInput label="Id" source="id" />
 				<TextInput label="Question" source="question" />
 				<SelectInput
 					source="type"
