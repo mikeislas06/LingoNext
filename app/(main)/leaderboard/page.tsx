@@ -8,6 +8,8 @@ import { StickyWrapper } from "@/components/stickyWrapper";
 import { UserProgress } from "@/components/userProgress";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Promo } from "@/components/promo";
+import { Quests } from "@/components/quests";
 
 const LeaderboardPage = async () => {
 	const userProgressData = getUserProgress();
@@ -35,6 +37,8 @@ const LeaderboardPage = async () => {
 					points={userProgress.points}
 					hasActiveSubscription={isUserSubscribed}
 				/>
+				{!isUserSubscribed && <Promo />}
+				<Quests points={userProgress.points} />
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">

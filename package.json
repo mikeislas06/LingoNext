@@ -9,7 +9,8 @@
 		"lint": "eslint",
 		"db:studio": "npx drizzle-kit studio",
 		"db:push": "npx drizzle-kit push",
-		"db:seed": " tsx ./scripts/seed.ts "
+		"db:seed": " tsx ./scripts/seed.ts",
+		"db:reset": " tsx ./scripts/reset.ts"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^6.37.0",
@@ -26,7 +27,9 @@
 		"lucide-react": "^0.563.0",
 		"next": "16.1.6",
 		"next-themes": "^0.4.6",
+		"ra-data-simple-rest": "^5.14.6",
 		"react": "19.2.3",
+		"react-admin": "^5.14.6",
 		"react-circular-progressbar": "^2.2.0",
 		"react-confetti": "^6.4.0",
 		"react-dom": "19.2.3",
