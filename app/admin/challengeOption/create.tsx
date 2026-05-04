@@ -1,4 +1,4 @@
-﻿import {
+import {
 	BooleanInput,
 	Create,
 	NumberInput,
@@ -8,7 +8,7 @@
 	TextInput,
 } from "react-admin";
 
-const validateChallengeOptionCreation = (values: Record<string, any>) => {
+const validateChallengeOptionCreation = (values: Record<string, any>): any => {
 	const errors: Record<string, string> = {};
 	if (!values.text) {
 		errors.text = "The text is required";
