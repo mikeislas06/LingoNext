@@ -6,32 +6,32 @@ import { challengeOptions } from "@/db/schema";
 
 import { isAdmin } from "@/lib/admin";
 
-export const GET = async (req: Request, { params }: { params: { challengeOptionId: number } }) => {
+export const GET = async (req: Request, { params }: { params: Promise<{ challengeOptionId: string }> }) => {
 	if (!isAdmin()) {
 		return new NextResponse("Unauthorized", { status: 403 });
 	}
 
-	const params_ = await params;
+	const { challengeOptionId } = await params;
 	const data = await db.query.challengeOptions.findFirst({
-		where: eq(challengeOptions.id, params_.challengeOptionId),
+		where: eq(challengeOptions.id, Number(challengeOptionId)),
 	});
 
 	return NextResponse.json(data);
 };
 
-export const PUT = async (req: Request, { params }: { params: { challengeOptionId: number } }) => {
+export const PUT = async (req: Request, { params }: { params: Promise<{ challengeOptionId: string }> }) => {
 	if (!isAdmin()) {
 		return new NextResponse("Unauthorized", { status: 403 });
 	}
 
-	const params_ = await params;
+	const { challengeOptionId } = await params;
 	const body = await req.json();
 	const data = await db
 		.update(challengeOptions)
 		.set({
 			...body,
 		})
-		.where(eq(challengeOptions.id, params_.challengeOptionId))
+		.where(eq(challengeOptions.id, Number(challengeOptionId)))
 		.returning();
 
 	return NextResponse.json(data[0]);
@@ -39,16 +39,16 @@ export const PUT = async (req: Request, { params }: { params: { challengeOptionI
 
 export const DELETE = async (
 	req: Request,
-	{ params }: { params: { challengeOptionId: number } },
+	{ params }: { params: Promise<{ challengeOptionId: string }> },
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse("Unauthorized", { status: 403 });
 	}
 
-	const params_ = await params;
+	const { challengeOptionId } = await params;
 	const data = await db
 		.delete(challengeOptions)
-		.where(eq(challengeOptions.id, params_.challengeOptionId))
+		.where(eq(challengeOptions.id, Number(challengeOptionId)))
 		.returning();
 
 	return NextResponse.json(data[0]);
