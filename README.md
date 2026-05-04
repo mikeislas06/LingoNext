@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lingo — Next.js app
 
-## Getting Started
+This repository is a Next.js application used for the Lingo portfolio project.
 
-First, run the development server:
+## Prerequisites
+
+- Node.js 18+ (recommended)
+- npm, yarn, or pnpm
+- PostgreSQL-compatible database (Neon is used in development here)
+
+## Quick start
+
+1. Clone the repo:
+
+```bash
+git clone <repo-url> lingo
+cd lingo
+```
+
+2. Install dependencies (choose one):
+
+```bash
+npm install
+# or
+pnpm install
+# or
+yarn install
+```
+
+3. Create a local `.env` file. The project expects these environment variables (examples are in the repository `.env`):
+
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+DATABASE_URL=
+STRIPE_API_KEY=
+STRIPE_WEBHOOK_SECRET=
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
 # or
-yarn dev
-# or
 pnpm dev
 # or
-bun dev
+yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Available npm scripts (from `package.json`):
 
-## Learn More
+- `dev` — start Next.js in development (`next dev`)
+- `build` — build for production (`next build`)
+- `start` — run production server (`next start`)
+- `lint` — run ESLint
+- `db:studio` — open Drizzle Studio (`npx drizzle-kit studio`)
+- `db:push` — push schema/migrations with Drizzle (`npx drizzle-kit push`)
+- `db:seed` — run the seed script (`tsx ./scripts/seed.ts`)
+- `db:reset` — run the reset script (`tsx ./scripts/reset.ts`)
+- `db:prod` — production DB helper script (`tsx ./scripts/prod.ts`)
 
-To learn more about Next.js, take a look at the following resources:
+Run them with `npm run <script>` (or `pnpm/yarn` equivalent).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Database
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project uses Drizzle ORM and expects a `DATABASE_URL` env var (Postgres/Neon). There are helper scripts in the `scripts/` folder:
 
-## Deploy on Vercel
+- `scripts/seed.ts` — populate sample data
+- `scripts/reset.ts` — reset the database (development)
+- `scripts/prod.ts` — production helpers
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Before running seed/reset, ensure `DATABASE_URL` points to a dev database. Use `npm run db:push` to apply schema changes.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Stripe & Webhooks
+
+For payments and webhooks the following variables are used:
+
+- `STRIPE_API_KEY` — secret key for Stripe API
+- `STRIPE_WEBHOOK_SECRET` — webhook signing secret (used by `app/api/webhooks/stripe/route.ts`)
+
+When testing webhooks locally, use the Stripe CLI to forward events to the local server and set `STRIPE_WEBHOOK_SECRET` accordingly.
+
+## Testing & Linting
+
+There are no automated test scripts configured. Use `npm run lint` to run ESLint.
+
+## Building & Running in Production
+
+1. Build:
+
+```bash
+npm run build
+```
+
+2. Start:
+
+```bash
+npm run start
+```
+
+## Notes & Security
+
+- Do NOT commit real secret keys to version control. Add `.env` to `.gitignore` if not already ignored.
+- The repository contains a `.env` with example/test values; replace with your own when running locally or on CI.
+
+## Next steps
+
+- If you want, I can add a `.env.example` file, a minimal CONTRIBUTING section, or CI workflow to run lint/build on PRs.
+
+---
