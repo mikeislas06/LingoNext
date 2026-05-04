@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
 import { getTopUsers, getUserProgress, getUserSubscription } from "@/db/queries";
+
+export const metadata: Metadata = {
+	title: "Leaderboard",
+	description: "See how you rank against other learners in the Lingo community.",
+};
 
 import { FeedWrapper } from "@/components/feedWrapper";
 import { StickyWrapper } from "@/components/stickyWrapper";

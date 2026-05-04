@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
 import { getTopUsers, getUserProgress, getUserSubscription } from "@/db/queries";
+
+export const metadata: Metadata = {
+	title: "Quests",
+	description: "Complete quests by earning points and unlock rewards on your language learning journey.",
+};
 
 import { FeedWrapper } from "@/components/feedWrapper";
 import { StickyWrapper } from "@/components/stickyWrapper";

@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+	title: "Learn",
+	description: "Continue your language learning journey with interactive lessons and challenges.",
+};
 import {
 	getCourseProgress,
 	getLessonPercentage,

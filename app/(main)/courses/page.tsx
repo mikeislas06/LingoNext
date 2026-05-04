@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
+
 import { getCourses, getUserProgress } from "@/db/queries";
 import { List } from "./list";
+
+export const metadata: Metadata = {
+	title: "Language Courses",
+	description: "Browse and select from a variety of language courses to start your learning journey.",
+};
 
 const CoursesPage = async () => {
 	const coursesData = getCourses();

@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getLesson, getUserProgress, getUserSubscription } from "@/db/queries";
+
+export const metadata: Metadata = {
+	title: "Lesson",
+	description: "Practice and improve your language skills with interactive challenges.",
+};
 import { Quiz } from "../quiz";
 
 type Props = {

@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
 import { getUserProgress, getUserSubscription } from "@/db/queries";
+
+export const metadata: Metadata = {
+	title: "Shop",
+	description: "Spend your hard-earned points on power-ups and extra hearts in the Lingo shop.",
+};
 
 import { FeedWrapper } from "@/components/feedWrapper";
 import { StickyWrapper } from "@/components/stickyWrapper";
