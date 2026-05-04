@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { useAudio, useKey } from "react-use";
+import { useCallback, useRef } from "react";
+import { useKey } from "react-use";
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -31,15 +31,13 @@ export const Card = ({
 	status = "unanswered",
 	type,
 }: Props) => {
-	const [audio, _, controls] = useAudio({ src: audioSrc || "" });
+	const audioRef = useRef<HTMLAudioElement>(null);
 
 	const handleClick = useCallback(() => {
 		if (disabled) return;
-
-		controls.play();
-
+		audioRef.current?.play();
 		onClick();
-	}, [disabled, onClick, controls]);
+	}, [disabled, onClick]);
 
 	useKey(shortcut, handleClick, {}, [handleClick]);
 
@@ -59,10 +57,10 @@ export const Card = ({
 				type === "ASSIST" && "lg:p-3 w-full",
 			)}
 		>
-			{audio}
+			<audio ref={audioRef} src={audioSrc || ""} />
 			{imageSrc && (
 				<div className="relative aspect-square mb-4 max-h-20 lg:max-h-37.5 w-full">
-					<Image src={imageSrc} fill alt={text} />
+					<Image src={imageSrc} fill alt={text} className="mix-blend-multiply" />
 				</div>
 			)}
 			<div

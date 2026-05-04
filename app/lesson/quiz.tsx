@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
-import { useAudio, useWindowSize, useMount } from "react-use";
+import { useState, useTransition, useEffect, useRef } from "react";
+import { useMount } from "react-use";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -51,15 +51,19 @@ export const Quiz = ({
 		}
 	});
 
-	// Window size for confetti
-	const { width, height } = useWindowSize();
+	// Window size for confetti — initialized to 0 so SSR and first client render match
+	const [width, setWidth] = useState(0);
+	const [height, setHeight] = useState(0);
+	useEffect(() => {
+		setWidth(window.innerWidth);
+		setHeight(window.innerHeight);
+	}, []);
 	const router = useRouter();
 	const [pending, startTransition] = useTransition();
 
-	// Audio hooks
-	const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
-	const [incorrectAudio, _i, incorrectControls] = useAudio({ src: "/incorrect.wav" });
-	const [finishAudio, _f, finishControls] = useAudio({ src: "/finish.mp3" });
+	const correctAudioRef = useRef<HTMLAudioElement>(null);
+	const incorrectAudioRef = useRef<HTMLAudioElement>(null);
+	const finishAudioRef = useRef<HTMLAudioElement>(null);
 
 	// State hooks for quiz logic
 	const [lessonId] = useState(initialLessonId);
@@ -80,7 +84,7 @@ export const Quiz = ({
 
 	useEffect(() => {
 		if (!currentChallenge) {
-			finishControls.play();
+			finishAudioRef.current?.play();
 		}
 	}, [currentChallenge]);
 
@@ -125,7 +129,7 @@ export const Quiz = ({
 							return;
 						}
 
-						correctControls.play();
+						correctAudioRef.current?.play();
 						setStatus("correct");
 						setPercentage((prev) => prev + 100 / challenges.length);
 
@@ -149,7 +153,7 @@ export const Quiz = ({
 							return;
 						}
 
-						incorrectControls.play();
+						incorrectAudioRef.current?.play();
 						setStatus("incorrect");
 
 						if (!response?.error) {
@@ -168,7 +172,9 @@ export const Quiz = ({
 	if (!currentChallenge) {
 		return (
 			<>
-				{finishAudio}
+				<audio ref={finishAudioRef} src="/finish.mp3" />
+				<audio ref={correctAudioRef} src="/correct.wav" />
+				<audio ref={incorrectAudioRef} src="/incorrect.wav" />
 				<Confetti
 					recycle={false}
 					numberOfPieces={500}
@@ -215,8 +221,9 @@ export const Quiz = ({
 
 	return (
 		<>
-			{incorrectAudio}
-			{correctAudio}
+			<audio ref={incorrectAudioRef} src="/incorrect.wav" />
+			<audio ref={correctAudioRef} src="/correct.wav" />
+			<audio ref={finishAudioRef} src="/finish.mp3" />
 			<Header
 				hearts={hearts}
 				percentage={percentage}
