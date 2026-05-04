@@ -38,7 +38,7 @@ STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-4. Run the development server:
+4. Run the development server (local development with hot reload):
 
 ```bash
 npm run dev
@@ -54,9 +54,9 @@ Open http://localhost:3000 in your browser.
 
 Available npm scripts (from `package.json`):
 
-- `dev` — start Next.js in development (`next dev`)
+- `dev` — start Next.js in development (`next dev`) — use this for local development (hot reload)
 - `build` — build for production (`next build`)
-- `start` — run production server (`next start`)
+- `start` — run production server (`next start`) — only run this after `npm run build`
 - `lint` — run ESLint
 - `db:studio` — open Drizzle Studio (`npx drizzle-kit studio`)
 - `db:push` — push schema/migrations with Drizzle (`npx drizzle-kit push`)
