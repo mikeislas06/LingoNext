@@ -1,7 +1,7 @@
-import { Edit, NumberInput, ReferenceInput, SelectInput, SimpleForm, TextInput } from "react-admin";
+﻿import { Edit, NumberInput, ReferenceInput, SelectInput, SimpleForm, TextInput } from "react-admin";
 
-const validateChallengeEdit = (values) => {
-	const errors = {};
+const validateChallengeEdit = (values: Record<string, any>) => {
+	const errors: Record<string, string> = {};
 	if (!values.question) {
 		errors.question = "The question is required";
 	}

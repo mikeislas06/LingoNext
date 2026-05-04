@@ -1,7 +1,7 @@
-import { Edit, SimpleForm, TextInput } from "react-admin";
+﻿import { Edit, SimpleForm, TextInput } from "react-admin";
 
-const validateCourseCreation = (values) => {
-	const errors = {};
+const validateCourseCreation = (values: Record<string, any>) => {
+	const errors: Record<string, string> = {};
 	if (!values.title) {
 		errors.title = "The title is required";
 	}
